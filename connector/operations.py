@@ -14,7 +14,7 @@ class GoogleSecOpsSIEM(object):
     def __init__(self, config):
         try:
             self.scopes = ["https://www.googleapis.com/auth/chronicle-backstory"]
-            cert_file_iri = config.get("service_file", {}).get("@id")
+            cert_file_iri = config.get("serviceAccountJSONFile", {}).get("@id")
             filename = download_file_from_cyops(cert_file_iri).get("cyops_file_path")
             file_data = os.path.join("/tmp", filename)
             credentials = service_account.Credentials.from_service_account_file(file_data, scopes=self.scopes)
@@ -27,9 +27,9 @@ class GoogleSecOpsSIEM(object):
 def execute_api_endpoint(config, params):
     try:
         client_obj = GoogleSecOpsSIEM(config)
-        url = "{0}{1}".format(config.get("regional_endpoint"), params.get("api_endpoint"))
+        url = "https://{0}{1}".format(config.get("regionalEndpoint"), params.get("api_endpoint"))
         method = params.get("method")
-        payload = json.loads(params.get("parameters"))
+        payload = json.loads(params.get("parameters")) if isinstance(params.get("parameters"), str) else params.get("parameters")
         payload = {k: v for k, v in payload.items() if v is not None and v != ""}
         response = client_obj.http_session.request(method, url, params=payload)
         if response:
