@@ -1,0 +1,129 @@
+{
+    "name": "google-secops-siem",
+    "version": "1.0.0",
+    "label": "Google SecOps SIEM",
+    "description": "",
+    "publisher": "anonyges@gmail.com",
+    "icon_small_name": "connector_logo_small.png",
+    "icon_large_name": "connector_logo_large.png",
+    "category": [
+        "Analytics and SIEM"
+    ],
+    "configuration": {
+        "fields": [
+            {
+                "title": "Regional Endpoint",
+                "type": "select",
+                "name": "regionalEndpoint",
+                "required": true,
+                "visible": true,
+                "editable": true,
+                "value": null,
+                "tooltip": "Please check your region at below\nhttps://cloud.google.com/chronicle/docs/reference/search-api#regional_endpoints",
+                "options": [
+                    "southamerica-east1-backstory.googleapis.com",
+                    "northamerica-northeast2-backstory.googleapis.com",
+                    "me-central2-backstory.googleapis.com",
+                    "me-central1-backstory.googleapis.com",
+                    "europe-backstory.googleapis.com",
+                    "europe-west3-backstory.googleapis.com",
+                    "europe-west2-backstory.googleapis.com",
+                    "asia-south1-backstory.googleapis.com",
+                    "europe-west9-backstory.googleapis.com",
+                    "asia-southeast1-backstory.googleapis.com",
+                    "australia-southeast1-backstory.googleapis.com",
+                    "me-west1-backstory.googleapis.com",
+                    "asia-northeast1-backstory.googleapis.com",
+                    "europe-west12-backstory.googleapis.com",
+                    "backstory.googleapis.com",
+                    "europe-west6-backstory.googleapis.com"
+                ]
+            },
+            {
+                "title": "Service Account JSON File",
+                "type": "file",
+                "name": "serviceAccountJSONFile",
+                "required": true,
+                "visible": true,
+                "editable": true,
+                "value": null
+            },
+            {
+                "title": "Verify SSL",
+                "type": "checkbox",
+                "name": "verify_ssl",
+                "required": true,
+                "visible": true,
+                "editable": true,
+                "value": true
+            }
+        ]
+    },
+    "operations": [
+        {
+            "title": "Execute API Endpoint",
+            "operation": "execute_api_endpoint",
+            "description": "executes a custom api endpoint",
+            "annotation": "execute_api_endpoint",
+            "parameters": [
+              {
+                "title": "api_endpoint",
+                "type": "text",
+                "name": "api_endpoint",
+                "required": true,
+                "visible": true,
+                "editable": true,
+                "value": "",
+                "tooltip": "should include the whole string eg) \"\""
+              },
+              {
+                "title": "headers",
+                "type": "object",
+                "name": "headers",
+                "required": false,
+                "visible": false,
+                "editable": true,
+                "value": null,
+                "tooltip": ""
+              },
+              {
+                "title": "data",
+                "type": "object",
+                "name": "data",
+                "required": false,
+                "visible": true,
+                "editable": true,
+                "value": null
+              },
+              {
+                "title": "parameters",
+                "type": "object",
+                "name": "parameters",
+                "required": false,
+                "visible": true,
+                "editable": true,
+                "value": null
+              },
+              {
+                "title": "method",
+                "type": "select",
+                "name": "method",
+                "required": true,
+                "visible": true,
+                "editable": true,
+                "value": "GET",
+                "options": [
+                  "GET",
+                  "PUT",
+                  "POST",
+                  "DELETE",
+                  "PATCH",
+                  "HEAD",
+                  "OPTIONS",
+                  "TRACE"
+                ]
+              }
+            ]
+          }
+    ]
+}
