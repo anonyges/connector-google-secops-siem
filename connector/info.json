@@ -2,15 +2,33 @@
     "name": "google-secops-siem",
     "version": "1.0.0",
     "label": "Google SecOps SIEM",
-    "description": "",
+    "description": "connector for google secops siem",
     "publisher": "anonyges@gmail.com",
     "icon_small_name": "connector_logo_small.png",
     "icon_large_name": "connector_logo_large.png",
-    "category": [
-        "Analytics and SIEM"
-    ],
+    "id": 186,
     "configuration": {
         "fields": [
+            {
+                "title": "Project ID",
+                "type": "text",
+                "name": "projectID",
+                "required": true,
+                "visible": true,
+                "editable": true,
+                "value": "",
+                "tooltip": "Found on 'Settings' > 'SIEM Settings' > 'Profile' > 'GCP Project Number', same as 'GCP Project Number'"
+            },
+            {
+                "title": "Instance ID",
+                "type": "text",
+                "name": "instanceID",
+                "required": true,
+                "visible": true,
+                "editable": true,
+                "value": "",
+                "tooltip": "Found on 'Settings' > 'SIEM Settings' > 'Profile' > 'Customer ID', same as 'Customer ID'"
+            },
             {
                 "title": "Regional Endpoint",
                 "type": "select",
@@ -21,22 +39,23 @@
                 "value": null,
                 "tooltip": "Please check your region at below\nhttps://cloud.google.com/chronicle/docs/reference/search-api#regional_endpoints",
                 "options": [
-                    "southamerica-east1-backstory.googleapis.com",
-                    "northamerica-northeast2-backstory.googleapis.com",
-                    "me-central2-backstory.googleapis.com",
-                    "me-central1-backstory.googleapis.com",
-                    "europe-backstory.googleapis.com",
-                    "europe-west3-backstory.googleapis.com",
-                    "europe-west2-backstory.googleapis.com",
-                    "asia-south1-backstory.googleapis.com",
-                    "europe-west9-backstory.googleapis.com",
-                    "asia-southeast1-backstory.googleapis.com",
-                    "australia-southeast1-backstory.googleapis.com",
-                    "me-west1-backstory.googleapis.com",
-                    "asia-northeast1-backstory.googleapis.com",
-                    "europe-west12-backstory.googleapis.com",
-                    "backstory.googleapis.com",
-                    "europe-west6-backstory.googleapis.com"
+                    "asia-northeast1",
+                    "asia-south1",
+                    "asia-southeast1",
+                    "australia-southeast1",
+                    "eu",
+                    "europe",
+                    "europe-west12",
+                    "europe-west2",
+                    "europe-west3",
+                    "europe-west6",
+                    "europe-west9",
+                    "me-central1",
+                    "me-central2",
+                    "me-west1",
+                    "northamerica-northeast2",
+                    "southamerica-east1",
+                    "us"
                 ]
             },
             {
@@ -61,69 +80,251 @@
     },
     "operations": [
         {
+            "title": "Check Health",
+            "operation": "check_health",
+            "description": "",
+            "parameters": [],
+            "open": false
+        },
+        {
             "title": "Execute API Endpoint",
             "operation": "execute_api_endpoint",
             "description": "executes a custom api endpoint",
             "annotation": "execute_api_endpoint",
             "parameters": [
-              {
-                "title": "api_endpoint",
-                "type": "text",
-                "name": "api_endpoint",
-                "required": true,
-                "visible": true,
-                "editable": true,
-                "value": "",
-                "tooltip": "should include the whole string eg) \"\""
-              },
-              {
-                "title": "headers",
-                "type": "object",
-                "name": "headers",
-                "required": false,
-                "visible": false,
-                "editable": true,
-                "value": null,
-                "tooltip": ""
-              },
-              {
-                "title": "data",
-                "type": "object",
-                "name": "data",
-                "required": false,
-                "visible": true,
-                "editable": true,
-                "value": null
-              },
-              {
-                "title": "parameters",
-                "type": "object",
-                "name": "parameters",
-                "required": false,
-                "visible": true,
-                "editable": true,
-                "value": null
-              },
-              {
-                "title": "method",
-                "type": "select",
-                "name": "method",
-                "required": true,
-                "visible": true,
-                "editable": true,
-                "value": "GET",
-                "options": [
-                  "GET",
-                  "PUT",
-                  "POST",
-                  "DELETE",
-                  "PATCH",
-                  "HEAD",
-                  "OPTIONS",
-                  "TRACE"
-                ]
-              }
+                {
+                    "title": "API Domain",
+                    "type": "select",
+                    "name": "apidomain",
+                    "required": true,
+                    "visible": true,
+                    "editable": true,
+                    "tooltip": "",
+                    "options": [
+                        "backstory",
+                        "chronicle"
+                    ]
+                },
+                {
+                    "title": "api_endpoint",
+                    "type": "text",
+                    "name": "api_endpoint",
+                    "required": true,
+                    "visible": true,
+                    "editable": true,
+                    "value": "",
+                    "tooltip": "should include the whole string eg) \"\""
+                },
+                {
+                    "title": "headers",
+                    "type": "object",
+                    "name": "headers",
+                    "required": false,
+                    "visible": false,
+                    "editable": true,
+                    "value": null,
+                    "tooltip": ""
+                },
+                {
+                    "title": "data",
+                    "type": "object",
+                    "name": "data",
+                    "required": false,
+                    "visible": true,
+                    "editable": true,
+                    "value": null
+                },
+                {
+                    "title": "params",
+                    "type": "object",
+                    "name": "params",
+                    "required": false,
+                    "visible": true,
+                    "editable": true,
+                    "value": null
+                },
+                {
+                    "title": "method",
+                    "type": "select",
+                    "name": "method",
+                    "required": true,
+                    "visible": true,
+                    "editable": true,
+                    "value": "GET",
+                    "options": [
+                        "GET",
+                        "PUT",
+                        "POST",
+                        "DELETE",
+                        "PATCH",
+                        "HEAD",
+                        "OPTIONS",
+                        "TRACE"
+                    ]
+                }
+            ],
+            "open": false
+        },
+        {
+            "title": "legacyGetAlert",
+            "operation": "legacygetalert",
+            "description": "",
+            "parameters": [
+                {
+                    "title": "alertId",
+                    "type": "text",
+                    "name": "alertId",
+                    "required": true,
+                    "visible": true,
+                    "editable": true,
+                    "value": "sa_00000000-0000-0000-0000-000000000000",
+                    "tooltip": "alert id mostly starts with \"sa_\" or \"ru_\""
+                },
+                {
+                    "title": "includeDetections",
+                    "type": "checkbox",
+                    "name": "includeDetections",
+                    "required": true,
+                    "visible": true,
+                    "editable": true,
+                    "value": false
+                }
+            ],
+            "open": false,
+            "category": "investigation"
+        },
+        {
+            "title": "legacyFetchAlertsView",
+            "operation": "legacyfetchalertsview",
+            "description": "",
+            "parameters": [
+                {
+                    "title": "baselineQuery",
+                    "type": "text",
+                    "name": "baselineQuery",
+                    "required": false,
+                    "visible": true,
+                    "editable": true,
+                    "value": ""
+                },
+                {
+                    "title": "alertListOptions.maxReturnedAlerts",
+                    "type": "integer",
+                    "name": "alertListOptionsMaxReturnedAlerts",
+                    "required": true,
+                    "visible": true,
+                    "editable": true,
+                    "value": 100
+                },
+                {
+                    "title": "timeRange.startTime",
+                    "type": "datetime",
+                    "name": "timeRangeStartTime",
+                    "required": true,
+                    "visible": true,
+                    "editable": true,
+                    "value": null
+                },
+                {
+                    "title": "timeRange.endTime",
+                    "type": "datetime",
+                    "name": "timeRangeEndTime",
+                    "required": true,
+                    "visible": true,
+                    "editable": true,
+                    "value": null
+                }
+            ],
+            "open": false,
+            "category": "investigation"
+        },
+        {
+            "operation": "udm_search",
+            "category": "investigation",
+            "annotation": "udm_search",
+            "output_schema": {},
+            "title": "UDM Search",
+            "description": "This method enables customers to programmatically complete a UDM Search query and retrieve matches.",
+            "enabled": true,
+            "parameters": [
+                {
+                    "title": "udm_type",
+                    "name": "udm_type",
+                    "type": "select",
+                    "description": "UDM search query.\nlink: https://cloud.google.com/chronicle/docs/reference/search-api#udmsearch",
+                    "visible": true,
+                    "editable": true,
+                    "required": true,
+                    "options": [
+                        "events"
+                    ],
+                    "value": "events",
+                    "tooltip": "one of 'events'"
+                },
+                {
+                    "title": "query",
+                    "name": "query",
+                    "type": "text",
+                    "description": "UDM search query.\nlink: https://cloud.google.com/chronicle/docs/reference/search-api#udmsearch",
+                    "visible": true,
+                    "editable": true,
+                    "required": true,
+                    "value": "security_result.alert_state = \"ALERTING\"",
+                    "tooltip": "https://cloud.google.com/chronicle/docs/reference/search-api#udmsearch"
+                },
+                {
+                    "title": "time_range.start_time",
+                    "name": "time_range.start_time",
+                    "type": "datetime",
+                    "description": "Inclusive start time.",
+                    "visible": true,
+                    "editable": true,
+                    "required": true,
+                    "tooltip": "ISO 8601 format"
+                },
+                {
+                    "title": "time_range.end_time",
+                    "name": "time_range.end_time",
+                    "type": "datetime",
+                    "description": "Exclusive end time.",
+                    "visible": true,
+                    "editable": true,
+                    "required": true,
+                    "tooltip": "ISO 8601 format"
+                },
+                {
+                    "title": "limit",
+                    "name": "limit",
+                    "type": "integer",
+                    "description": "(Optional) The maximum number of matched events to return. Must be less than or equal to 10,000.",
+                    "required": false,
+                    "visible": true,
+                    "editable": true,
+                    "value": 100,
+                    "tooltip": "(Optional) The maximum number of matched events to return. Must be less than or equal to 10,000."
+                }
             ]
-          }
+        }
+    ],
+    "category": [
+        "Analytics and SIEM"
+    ],
+    "contributor": null,
+    "active": true,
+    "cs_compatible": true,
+    "system": false,
+    "playbook_collections": [
+        {
+            "@id": "/api/3/workflow_collections/caa0bbda-0886-46f5-b745-d0f3518e7a2e",
+            "name": "Sample - Google SecOps SIEM - 1.0.0",
+            "image": "/api/3/images/c27ab4a6-d261-4b09-8d56-6d6715939371",
+            "description": "Sample playbooks for \"Google SecOps SIEM\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete."
+        }
+    ],
+    "help_online": null,
+    "vendor_version": null,
+    "ingestion_supported": true,
+    "ingestion_modes": [
+        "scheduled"
     ]
 }
