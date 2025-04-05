@@ -6,17 +6,17 @@ logger = get_logger(LOGGER_NAME)
 
 
 class GoogleSecOpsSIEM(object):
-    def __init__(self, config):
+    def __init__(self, config:dict, service_account_file_path: str):
         try:
             self.scopes = [
                 "https://www.googleapis.com/auth/chronicle-backstory",
                 "https://www.googleapis.com/auth/malachite-ingestion",
                 "https://www.googleapis.com/auth/cloud-platform",
             ]
-            cert_file_iri = config.get("serviceAccountJSONFile", {}).get("@id")
-            filename = download_file_from_cyops(cert_file_iri).get("cyops_file_path")
-            file_data = os.path.join("/tmp", filename)
-            credentials = service_account.Credentials.from_service_account_file(file_data, scopes=self.scopes)
+            # cert_file_iri = config.get("serviceAccountJSONFile", {}).get("@id")
+            # filename = download_file_from_cyops(cert_file_iri).get("cyops_file_path")
+            # file_data = os.path.join("/tmp", filename)
+            credentials = service_account.Credentials.from_service_account_file(service_account_file_path, scopes=self.scopes)
             self.http_session = requests.AuthorizedSession(credentials)
         except Exception as e:
             logger.exception(f"{str(e)}")
